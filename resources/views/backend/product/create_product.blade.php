@@ -153,12 +153,11 @@
                                     </div>
                                 </div>
 
+                                {{-- Quantity --}}
                                 <div class="mb-4">
-                                    <label for="product_name" class="form-label">Stock Status</label>
-                                    <select class="form-select" name="stock_status">
-                                        <option value="1" selected>In Stock</option>
-                                        <option value="0">Out of Stock</option>
-                                    </select>
+                                    <label  class="form-label">Quantity</label>
+                                    <input type="number" placeholder="number" class="form-control"
+                                    value="{{ old('qnt') }}" name="qnt">
                                 </div>
 
                                 <hr>
@@ -210,6 +209,7 @@
                                     <input class="form-control" type="file" name="images[]" multiple
                                         accept="image/*">
                                 </div>
+
 
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Video Link</label>
