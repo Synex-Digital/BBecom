@@ -10,6 +10,13 @@
             </ul>
         </div>
     @endif
+    @if (session('err'))
+        <div class="alert alert-danger">
+            <ul>
+                {{ session('err') }}
+            </ul>
+        </div>
+    @endif
     <div class="row">
         <div class="col-lg-12">
             <div class="card mb-4">

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductPhoto;
+use App\Models\ProductQuantity;
 use App\Models\ProductService;
 use App\Models\Service;
 use Carbon\Carbon;
@@ -31,31 +32,44 @@ class ProductController extends Controller
     {
         $service = Service::all();
         $categories = ProductCategory::all();
+
+        if ($categories->isEmpty()) {
+            return redirect()->route('category.create')->with('err', 'Add category before product');
+        }elseif ($service->isEmpty()) {
+            return redirect()->route('variation.create')->with('err', 'Add service before product');
+        }
+
         return view('backend.product.create_product', [
             'categories' => $categories,
             'services'   => $service,
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
             'btn'               => 'required',
-            'category_id'       => 'required',
+            'category_id'       => 'required|integer',
             'product_name'      => 'required',
             'short_description' => 'required',
             'description'       => 'required',
-            'price'             => 'required',
-            'discount'          => 'required',
-            'stock_status'      => 'required',
-            // 'service'           => 'required',
+            'price'             => 'required|integer',
+            'stk_price'         => 'required|integer',
+            'qnt'               => 'required',
+            'service'           => 'required|array|present',
+            'images'            => 'required|array|present',
 
         ]);
 
-        //create a unique slugs for product
+        $sku = 'SK'. now()->format('mdH'). strtoupper(Str::random(4)). now()->format('is');
+        $slug = Str::slug($request->product_name);
+
+        // Check if the slug already exists, append numeric value if necessary
+        $count = Product::where('slugs', $slug)->count();
+        if ($count > 0) {
+            $slug = $slug . '-' . ($count + 1);
+        }
+        // dd($request->all());
 
         DB::beginTransaction();
 
@@ -64,16 +78,17 @@ class ProductController extends Controller
             $product = new Product();
             $product->category_id       = $request->category_id;
             $product->name              = $request->product_name;
-            $product->slugs             = Str::slug($request->product_name);
+            $product->slugs             = $slug;
             $product->short_description = $request->short_description;
             $product->description       = $request->description;
             $product->discount          = $request->discount;
             $product->price             = $request->price;
-            $product->link              = $request->link;
-            $product->stock_status      = $request->stock_status;
+            $product->video_link        = $request->link;
             $product->status            = $request->btn;
             $product->featured          = $request->featured == 'on' ? 1 : 0;
             $product->popular           = $request->popular == 'on' ? 1 : 0;
+            $product->sku               = $sku;
+            $product->qnt               = $request->qnt;
             $product->seo_title         = $request->seo_title;
             $product->seo_description   = $request->seo_description;
             $product->seo_tags          = $request->seo_tags;
@@ -81,7 +96,19 @@ class ProductController extends Controller
 
             $product_id = $product->id;
 
+
+
             if ($product) {
+
+                $product_qnt = new ProductQuantity();
+                $product_qnt->product_id    = $product_id;
+                $product_qnt->quantity      = $request->qnt;
+                $product_qnt->sale_price    = $request->price;
+                $product_qnt->stock_price   = $request->stk_price;
+                $product_qnt->save();
+
+
+
                 foreach ($request->service as $service) {
                     ProductService::insert([
                         'product_id' => $product_id,
@@ -108,17 +135,11 @@ class ProductController extends Controller
         return back()->with('succ', 'Product added successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $services = Service::all();
@@ -127,9 +148,6 @@ class ProductController extends Controller
         return view('backend.product.edit_product', compact('request', 'categories', 'services'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $request->validate([

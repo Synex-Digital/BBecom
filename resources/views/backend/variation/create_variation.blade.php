@@ -10,6 +10,21 @@
                 </ul>
             </div>
         @endif
+        @if (session('succ'))
+            <div class="alert alert-success">
+                <ul>
+                    <li>{{ session('succ') }}</li>
+                </ul>
+            </div>
+        @endif
+
+        @if (session('err'))
+            <div class="alert alert-danger">
+                <ul>
+                    <li>{{ session('err') }}</li>
+                </ul>
+            </div>
+        @endif
         <div class="row">
             <div class="col-lg-12">
                 <div class="card mb-4">

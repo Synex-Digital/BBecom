@@ -26,8 +26,9 @@ $config = Config::first();
     <script src="{{ asset('backend') }}/assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('backend') }}/assets/js/vendors/bootstrap.bundle.min.js"></script>
     <!-- include summernote css/js -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    {{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script> --}}
+    @yield('style')
     @livewireStyles
 </head>
 

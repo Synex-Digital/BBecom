@@ -39,7 +39,7 @@ class VariationController extends Controller
             'message'    => $request->variation_name,
             'created_at' => Carbon::now(),
         ]);
-        return back()->with('succ', 'Variation Added...');
+        return back()->with('succ', 'Service added');
     }
 
     /**

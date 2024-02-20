@@ -7,7 +7,6 @@ use App\Http\Controllers\Admin\CampaignProduct;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\VariationController;
 use App\Http\Controllers\Admin\VariationOptionController;
@@ -65,7 +64,7 @@ Route::middleware(['admin'])->prefix('sd_admin')->group(function () {
     Route::resource('/variation', VariationController::class);
     Route::resource('/product', App\Http\Controllers\Admin\ProductController::class);
     Route::resource('/shipping', ShippingController::class);
-    Route::resource('/variation_option', VariationOptionController::class);
+    // Route::resource('/variation_option', VariationOptionController::class);
     Route::resource('/campaign-product', CampaignController::class);
     Route::resource('/employee',EmployeeController::class);
 });
