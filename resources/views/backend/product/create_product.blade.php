@@ -157,6 +157,7 @@
                                     </div>
                                 </div>
 
+                                {{-- Quantity --}}
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Stock Qnt</label>
                                     <input type="number" placeholder="Quantity" class="form-control @error('qnt') is-invalid @enderror"
@@ -218,6 +219,7 @@
                                         <div class="text-danger">{{ $message }}*</div>
                                     @enderror
                                 </div>
+
 
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Video Link</label>
