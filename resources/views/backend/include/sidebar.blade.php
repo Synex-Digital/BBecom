@@ -68,6 +68,15 @@
                     <a href="{{ route('product.create') }}">Add product</a>
                 </div>
             </li>
+            <li class="menu-item has-submenu">
+                <a class="menu-link" href="#"> <i class="icon material-icons md-add_box"></i>
+                    <span class="text">Coupon</span>
+                </a>
+                <div class="submenu">
+                    <a href="{{ route('coupon.index') }}">Coupon List</a>
+                    <a href="{{ route('coupon.create') }}">Add coupon</a>
+                </div>
+            </li>
             <li class="menu-item">
                 <a class="menu-link" href="{{ route('admin.order') }}"> <i class="icon material-icons md-add_box"></i>
                     <span class="text">Order</span>
