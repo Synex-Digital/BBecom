@@ -9,6 +9,10 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable =[
+        'price',
+    ];
+
 
     function category()
     {
@@ -33,5 +37,16 @@ class Product extends Model
     public function getFinalPriceAttribute()
     {
         return $this->price - ($this->price * $this->discount / 100);
+    }
+
+    public function stockItem()
+    {
+        return $this->hasMany(ProductQuantity::class, 'product_id');
+    }
+
+    public function stock()
+    {
+        // Sum the 'qnt' values from the related 'ProductQuantity' records
+        return $this->stockItem()->sum('quantity');
     }
 }

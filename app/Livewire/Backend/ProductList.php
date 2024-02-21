@@ -49,7 +49,7 @@ class ProductList extends Component
         //     $query->where('category_id', $this->category); // Adjust 'category_id' with your actual column name
         // }
 
-        $product = $query->where('status', 1)->orderBy('id', 'DESC')->paginate(10);
+        $product = $query->where('status', 'active')->orderBy('id', 'DESC')->paginate(10);
 
 
         $categories = ProductCategory::all();

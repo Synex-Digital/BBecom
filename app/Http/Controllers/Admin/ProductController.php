@@ -149,35 +149,67 @@ class ProductController extends Controller
     {
         $request->validate([
             'btn'               => 'required',
-            'category_id'       => 'required',
+            'category_id'       => 'required|integer',
             'product_name'      => 'required',
             'short_description' => 'required',
             'description'       => 'required',
-            'price'             => 'required',
-            'discount'          => 'required',
-            'stock_status'      => 'required',
+            'price'             => 'required|integer',
+            'stk_price'         => 'required|integer',
 
         ]);
 
-        // $slugs = Str::slug($request->product_name);
+        $slug = Str::slug($request->product_name);
 
+        // Check if the slug already exists, append numeric value if necessary
+        $count = Product::where('slugs', $slug)->count();
+        if ($count > 0) {
+            $slug = $slug . '-' . ($count + 1);
+        }
 
-        $product = Product::find($id);
-        $product->category_id       = $request->category_id;
-        $product->name              = $request->product_name;
-        $product->slugs             = Str::slug($request->product_name);
-        $product->short_description = $request->short_description;
-        $product->description       = $request->description;
-        $product->discount          = $request->discount;
-        $product->price             = $request->price;
-        $product->link              = $request->link;
-        $product->stock_status      = $request->stock_status;
-        $product->status            = $request->btn;
-        $product->seo_title         = $request->seo_title;
-        $product->seo_description   = $request->seo_description;
-        $product->seo_tags          = $request->seo_tags;
-        $product->save();
+        DB::beginTransaction();
 
+        try {
+            $product = Product::find($id);
+            $product->category_id       = $request->category_id;
+            $product->name              = $request->product_name;
+            $product->slugs             = $slug;
+            $product->short_description = $request->short_description;
+            $product->description       = $request->description;
+            $product->discount          = $request->discount;
+            $product->price             = $request->price;
+            $product->video_link        = $request->link;
+            $product->status            = $request->btn;
+            $product->seo_title         = $request->seo_title;
+            $product->seo_description   = $request->seo_description;
+            $product->seo_tags          = $request->seo_tags;
+
+            // Update the related ProductQuantity based on the first item
+            $firstProductQuantity = $product->stockItem->sortByDesc('created_at')->first();
+
+            if ($request->qnt && $request->qnt != 0) {
+                //new qnt update
+                $productQuantity = new ProductQuantity();
+                $productQuantity->product_id  = $id;
+                $productQuantity->quantity    = $request->qnt;
+                $productQuantity->sale_price  = $request->price;
+                $productQuantity->stock_price = $request->stk_price;
+                $productQuantity->save();
+
+                //Product qnt update
+                $product->qnt = $product->qnt + $request->qnt;
+            }elseif ($firstProductQuantity) {
+                $firstProductQuantity->sale_price  = $request->price;
+                $firstProductQuantity->stock_price = $request->stk_price;
+            }
+
+            $product->save();
+            $firstProductQuantity->save();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('err', 'Failed to add product, try again.');
+        }
 
         return back()->with('succ', 'Update Successfully');
     }

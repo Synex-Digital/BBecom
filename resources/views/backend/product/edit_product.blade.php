@@ -10,6 +10,20 @@
                 </ul>
             </div>
         @endif
+        @if (session('succ'))
+            <div class="alert alert-success">
+                <ul>
+                    <li>{{ session('succ') }}</li>
+                </ul>
+            </div>
+        @endif
+        @if (session('err'))
+            <div class="alert alert-danger">
+                <ul>
+                    <li>{{ session('err') }}</li>
+                </ul>
+            </div>
+        @endif
         <div class="row">
             <form action="{{ route('product.update', $request->id) }}" method="POST">
                 @csrf
@@ -20,9 +34,9 @@
                         <div>
                             <a href="{{ route('product.index') }}" name="btn"
                                 class="btn btn-md rounded font-sm hover-up">Back</a>
-                            <button type="submit" name="btn" value="0"
+                            <button type="submit" name="btn" value="deactive"
                                 class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
-                            <button type="submit" name="btn" value="1"
+                            <button type="submit" name="btn" value="active"
                                 class="btn btn-md rounded font-sm hover-up">Update</button>
                         </div>
                     </div>
@@ -118,53 +132,82 @@
 
                         {{-- Right --}}
                         <div class="col-md-4">
-                            {{-- Pricing --}}
+                            {{-- Stock --}}
                             <div class="card mb-4">
-                                <div class="card-header">
-                                    <h4>Pricing / Features</h4>
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h4>Stock</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="col-12">
                                         <div class="mb-4">
-                                            <label for="product_name" class="form-label">Product Price</label>
+                                            <table class="table border">
+                                                <tr >
+                                                    <td>SKU</td>
+                                                    <th scope="row" style="font-weight: 800;">{{ $request->sku }}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>Stock history</td>
+                                                    <th scope="row" style="font-weight: 800;">{{ $request->stock() }}</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>Current stock</td>
+                                                    <th scope="row" style="font-weight: 800;">{{ $request->qnt }}</th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="mb-4">
+                                            <label for="product_name" class="form-label">Upadate stock - <span style="font-size: 12px; color:rgb(8 129 120)">"It will update current stock"</span></label>
+                                            <input type="number" placeholder="0" class="form-control"
+                                                 name="qnt">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="mb-4">
+                                                <label for="product_name" class="form-label">Discount %</label>
+                                                <input type="number" placeholder="0%" class="form-control"
+                                                    value="{{ $request->discount }}" name="discount" max="100" min="0">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label for="product_name" class="form-label">Selling Price</label>
                                             <input type="number" placeholder="0.00" class="form-control"
-                                                value="{{ $request->price }}" name="price">
+                                                value="{{ str_replace(',', '', number_format($request->price ?? 0, 0)) }}" name="price">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="product_name" class="form-label">Stock price</label>
+                                            <input type="number" placeholder="0.00" class="form-control"
+                                                value="{{ $request->stockItem->first() ? number_format($request->stockItem->first()->stock_price,0):0 }}" name="stk_price">
                                         </div>
                                     </div>
+                                </div>
+                            </div>
 
+                            {{-- Pricing --}}
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4>Service</h4>
+                                </div>
+                                <div class="card-body">
                                     <div class="col-12">
                                         <div class="mb-4">
-                                            <label for="product_name" class="form-label">Discount %</label>
-                                            <input type="number" placeholder="0%" class="form-control"
-                                                value="{{ $request->discount }}" name="discount">
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Stock Status</label>
-                                        <select class="form-select" name="stock_status">
-                                            <option value="1" {{ $request->stock_status == 1 ? 'selected' : '' }}>In
-                                                Stock</option>
-                                            <option value="0" {{ $request->stock_status == 0 ? 'selected' : '' }}>Out
-                                                of
-                                                Stock</option>
-                                        </select>
-                                    </div>
-                                    <hr>
-                                    <div class="col-12">
-                                        <div class="mb-4">
-                                            <label for="product_name" class="form-label">Services</label>
-
                                             <div class="mt-2">
                                                 @if ($request->services)
+                                                <ul>
+
+                                                </ul class="list-group">
                                                     @foreach ($request->services as $service)
-                                                        <div class="form-check">
+                                                        <li class="list-group-item">{{ $service->service?$service->service->message:'Unknown' }}</li>
+                                                        {{-- <div class="form-check">
                                                             <input class="form-check-input" name="service[]" type="checkbox"
                                                                 value="{{ $service->id }}" id="{{ $service->id }}">
                                                             <label class="form-check-label" style="font-size: 10.5px"
                                                                 for="{{ $service->id }}">
                                                                 {{ $service->message }} </label>
-                                                        </div>
+                                                        </div> --}}
                                                     @endforeach
                                                 @endif
                                             </div>
