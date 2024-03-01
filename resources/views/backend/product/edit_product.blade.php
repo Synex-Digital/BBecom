@@ -1,6 +1,7 @@
 @extends('backend.master')
 @section('content')
     <section class="content-main">
+
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -24,6 +25,7 @@
                 </ul>
             </div>
         @endif
+
         <div class="row">
             <form action="{{ route('product.update', $request->id) }}" method="POST">
                 @csrf

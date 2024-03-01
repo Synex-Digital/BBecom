@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Config;
 use App\Models\Order;
+use App\Models\OrderPayment;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Response;
 use League\Csv\Writer;
@@ -18,6 +19,8 @@ class AdminOrder extends Controller
 
     public function orderView($id){
         $order = Order::find($id);
+        $order->notification = 0;
+        $order->save();
         return view('backend.order.view',[
             'order' => $order
         ]);
@@ -37,8 +40,8 @@ class AdminOrder extends Controller
         }
 
         if ($request->btn == 1 && $request->status != null && $order) {
-            $order->status      = $request->status;
-            $order->message     = $request->note;
+            $order->order_status    = $request->status;
+            $order->admin_message   = $request->note;
             $order->save();
             return back()->with('succ','updated');
         }elseif ($request->btn == 2 && $order) {
@@ -88,5 +91,32 @@ class AdminOrder extends Controller
         ];
 
         return Response::make($csv->output(), 200, $headers);
+    }
+
+    public function payment(Request $request){
+        $request->validate([
+            'order_id'       => 'required',
+            'type'           => 'required',
+            'price'          => 'required|integer',
+        ]);
+
+
+        $order = Order::find($request->order_id);
+        if (!$order) {
+            return back();
+        }
+        if ($request->payment_status != null) {
+            $order->payment_status = $request->payment_status;
+            $order->save();
+        }
+
+
+        $payment = new OrderPayment();
+        $payment->order_id          = $request->order_id;
+        $payment->payment_type      = $request->type;
+        $payment->price             = $request->price;
+        $payment->transaction_id    = $request->transaction_id;
+        $payment->save();
+        return back()->with('succ','Payment added');
     }
 }

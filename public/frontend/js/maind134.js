@@ -61,7 +61,7 @@
         slidesToScroll: 1,
         fade: true,
         loop: true,
-        dots: true,
+        dots: false,
         arrows: true,
         prevArrow: '<span class="slider-btn slider-prev"><i class="fi-rs-angle-left"></i></span>',
         nextArrow: '<span class="slider-btn slider-next"><i class="fi-rs-angle-right"></i></span>',
@@ -103,7 +103,7 @@
                 {
                     breakpoint: 480,
                     settings: {
-                        slidesToShow: 1,
+                        slidesToShow: 2,
                         slidesToScroll: 1
                     }
                 }

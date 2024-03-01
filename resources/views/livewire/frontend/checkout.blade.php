@@ -57,32 +57,74 @@
                     <form wire:submit="save">
                         <div class="row mb-50">
                             <div class="col-lg-6 col-md-12">
+                                <div class="row">
+
+                                    <div class="mb-3">
+                                        <div class="mb-2">
+                                            <h4>Delivery Area</h4>
+                                        </div>
+
+                                        <div class="frb-group">
+                                            @error('shippingPrice')
+                                                <div class="mb-3" style="background: #d700000a; padding: 2px 10px 2px 10px; border-radius: 5px; border: 1px solid #DC3544;">{{ $message }}</div>
+                                            @enderror
+                                            @foreach ($shippings as $key => $shipping)
+                                                <div class="frb frb-primary">
+                                                    <input type="radio" wire:click="ship({{ $shipping->id }})" id="radio-button-{{ $key+1 }}" name="radio-button">
+                                                    <label for="radio-button-{{ $key+1 }}">
+                                                        <span class="frb-title">{{ $shipping->name }}</span>
+                                                        <span class="frb-description">৳ {{ $shipping->price }}</span>
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 mb-3">
+                                        <div class="mb-2">
+                                            <h4>Information</h4>
+                                            {{-- <p style="font-size: 12px;color: #23232399;">
+                                                অর্ডার কনফার্ম করতে আপনার নাম, মোবাইল নাম্বর,ঠিকানা লিখে " Complete your order " বাটনে ক্লিক করুন।
+                                            </p> --}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class=" input-group mb-3">
+                                            <input type="text" class="form-control input-sm @error('name') is-invalid @enderror" wire:model="name" aria-label="lg" placeholder="Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class=" input-group mb-3">
+                                            <input type="email" class="form-control input-sm @error('email') is-invalid @enderror" wire:model="email" aria-label="lg" placeholder="Email">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-3">
+                                            <input type="number" class="form-control input-sm @error('number') is-invalid @enderror" wire:model="number" aria-label="lg" placeholder=" 017xxxxxxxx">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        {{-- <label for="">Address</label> --}}
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control input-sm @error('address') is-invalid @enderror" wire:model="address" aria-label="lg" placeholder="Address ( থানা+জেলা )">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                            <textarea type="text" class="form-control input-sm" wire:model="message" placeholder="Messages" rows="10" cols="50"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
                                 <div class="mb-3">
                                     <div class="mb-2">
                                         <h4>Delivery Area</h4>
                                     </div>
-                                    @foreach ($shippings as $key => $shipping)
-                                        <div class="form-check">
-                                            <input class="form-check-input" wire:click="ship({{ $shipping->id }})" type="radio" model id="flexRadioDefault{{ $key+1 }}" >
-                                            <label class="form-check-label" for="flexRadioDefault{{ $key+1 }}">
-                                                {{ $shipping->name }} <span style="color: black;font-size: 12px; padding-left: 4px; font-weight: 900;">{{ $shipping->price }}</span>
-                                            </label>
-                                          </div>
-                                    @endforeach
                                 </div>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control input-sm @error('name') is-invalid @enderror" wire:model="name" aria-label="lg" placeholder="Name">
-                                </div>
-
-                                <div class="input-group mb-3">
-                                    <input type="number" class="form-control input-sm @error('number') is-invalid @enderror" wire:model="number" aria-label="lg" placeholder="Mobile number">
-                                </div>
-
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control input-sm @error('address') is-invalid @enderror" wire:model="address" aria-label="lg" placeholder="Address">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12">
                                 <div class=" border-radius cart-totals">
                                     @error('cart')
                                         <div class="alert alert-danger">{{ $message }}</div>

@@ -11,7 +11,7 @@ class ProductList extends Component
 {
     use WithPagination;
 
-    public $search;
+    public $search,$status = null, $category = null;
 
     public function featured($id)
     {
@@ -38,23 +38,22 @@ class ProductList extends Component
     public function render()
     {
 
-        $query = Product::query()
-            ->where(function ($query) {
-                $query->where('name', 'like', '%' . $this->search . '%');
-                // ->orWhere('number', 'like', '%' . $this->search . '%');
-                // Add more fields here for searching (e.g., 'email', 'description', etc.)
-            });
-
-        // if ($this->category !== '') {
-        //     $query->where('category_id', $this->category); // Adjust 'category_id' with your actual column name
-        // }
-
-        $product = $query->where('status', 'active')->orderBy('id', 'DESC')->paginate(10);
+        $products = Product::where('name', 'like', '%' . $this->search . '%')
+        ->when($this->status, function ($query) {
+            $query->where('status', $this->status);
+        }, function ($query) {
+            $query->where('status', 'active');
+        })
+        ->when($this->category, function ($query) {
+            $query->where('category_id', $this->category);
+        })
+        ->orderBy('id', 'DESC')
+        ->paginate(10);
 
 
         $categories = ProductCategory::all();
         return view('livewire.backend.product-list', [
-            'requests'      => $product,
+            'requests'      => $products,
             'categories'    => $categories
         ]);
     }

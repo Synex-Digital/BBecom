@@ -38,34 +38,23 @@
         </div>
     </div>
 </div> --}}
-<main class="main">
-    @livewire('frontend.header-ads')
-    <section class="featured section-padding">
-        <div class="container">
-            <div class="row">
-                @forelse ($categories as $key => $category)
-                    <?php
-                        // Array of predefined colors
-                        $colors = ['#0F393C', '#FFC857', '#32CD32', '#7BC950', '#F07167', '#F95738'];
-
-                        // Get the index within the range of colors
-                        $colorIndex = $key % count($colors);
-
-                        $selectedColor = $colors[$colorIndex];
-                    ?>
-
-                    <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
-                        <div  class="banner-features wow fadeIn animated hover-up animated">
-                            <img src="{{ asset('files/category/'.$category->category_image) }}" alt="">
-                            <a href="{{ route('front.category',$category->slugs) }}" class="bg-{{ $key+1 }} p-2 rounded" style="font-weight: 600;">{{ $category->category_name }}</a>
-                        </div>
+    <!-- Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="text-center">
+                    <h5 class="mb-5">ECOM HAAT</h5>
+                    <div class="loader">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
                     </div>
-                @empty
-
-                @endforelse
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+<main class="main">
+    @livewire('frontend.header-ads')
     @livewire('frontend.product')
 </main>
 @endsection

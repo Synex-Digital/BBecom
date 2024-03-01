@@ -9,7 +9,7 @@
         @endif
         <div>
             <h2 class="content-title card-title">Coupon List </h2>
-         
+
         </div>
         <div>
             <input type="text" placeholder="Search couponID" class="form-control bg-white">
@@ -39,10 +39,10 @@
                     <tbody>
                         @foreach($coupons as $coupon)
                         <tr>
-                          <td>{{$loop->iteration}}</td>  
-                          <td>{{$coupon->type}}</td>  
-                          <td>{{$coupon->code}}</td>  
-                          <td>{{$coupon->value}}</td>  
+                          <td>{{$loop->iteration}}</td>
+                          <td>{{$coupon->type}}</td>
+                          <td>{{$coupon->code}}</td>
+                          <td>{{ number_format($coupon->value,0) }} {{ $coupon->type == 'percent'?'%':'Tk' }}</td>
 
                             <form action="{{route('coupon.destroy',$coupon->id)}}" method="post">
                                 @csrf

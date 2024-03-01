@@ -59,13 +59,3 @@ class SEOController extends Controller
         return response()->download(public_path('sitemap.xml'), 'sitemap.xml');
     }
 }
-
-
-// ->add(Url::create('/about')
-//                 ->setLastModificationDate(Carbon::now())
-//                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
-//                 ->setPriority(0.1))
-//             ->add(Url::create('/grid/project')
-//                 ->setLastModificationDate(Carbon::now())
-//                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY)
-//                 ->setPriority(0.1));

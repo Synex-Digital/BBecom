@@ -25,18 +25,25 @@ class CookieSD
     {
         $productData = self::getProductData();
 
-        // Check if the product ID already exists in the array
         $existingProductIndex = array_search($productId, array_column($productData, 'id'));
 
         if ($existingProductIndex !== false) {
-            // If the product already exists, update its quantity
-            $productData[$existingProductIndex]['quantity'] += max(1, $quantity); // Ensure the quantity is at least 1
+            $newQuantity = $productData[$existingProductIndex]['quantity'] + max(1, $quantity);
+
+            if (!self::isQuantitySufficient($productId, $newQuantity)) {
+                throw new \Exception('Insufficient quantity for the product.');
+            }
+
+            $productData[$existingProductIndex]['quantity'] = $newQuantity;
         } else {
-            // If the product does not exist, add it to the array
+            if (!self::isQuantitySufficient($productId, max(1, $quantity))) {
+                throw new \Exception('Insufficient quantity for the product.');
+            }
+
             $productData[] = ['id' => $productId, 'quantity' => max(1, $quantity)];
         }
 
-        $encodedProductData = json_encode(array_values($productData)); // Reset array keys
+        $encodedProductData = json_encode(array_values($productData));
         Cookie::queue(Cookie::forever('product_data', $encodedProductData));
     }
 
@@ -67,7 +74,7 @@ class CookieSD
                 $data = Product::query();
 
                 $products = $data->whereIn('id', $productIds)
-                    ->where('stock_status', 1)
+                    ->where('status', 1)
                     ->get();
 
                 // Combine product data with quantities
@@ -103,6 +110,12 @@ class CookieSD
 
     public static function decrement(int $productId): void
     {
+        $product = Product::find($productId);
+
+        if (!$product) {
+            throw new \Exception('Product not found.');
+        }
+
         $productData = self::getProductData();
 
         // Find the index of the product in the array
@@ -110,10 +123,17 @@ class CookieSD
 
         if ($existingProductIndex !== false) {
             // If the product exists, reduce its quantity
-            $productData[$existingProductIndex]['quantity'] = max(1, $productData[$existingProductIndex]['quantity'] -1);
+            $newQuantity = max(1, $productData[$existingProductIndex]['quantity'] - 1);
+
+            // Check if the new quantity is available
+            if (!self::isQuantitySufficient($productId, $newQuantity)) {
+                throw new \Exception('Insufficient quantity available for the product.');
+            }
+
+            $productData[$existingProductIndex]['quantity'] = $newQuantity;
 
             // If the quantity becomes zero or negative, remove the product from the array
-            if ($productData[$existingProductIndex]['quantity'] <= 0) {
+            if ($newQuantity <= 0) {
                 unset($productData[$existingProductIndex]);
             }
 
@@ -125,17 +145,30 @@ class CookieSD
 
     public static function increment(int $productId): void
     {
+        $product = Product::find($productId);
+
+        if (!$product) {
+            throw new \Exception('Product not found.');
+        }
+
         $productData = self::getProductData();
 
         // Find the index of the product in the array
         $existingProductIndex = array_search($productId, array_column($productData, 'id'));
 
         if ($existingProductIndex !== false) {
-            // If the product exists, reduce its quantity
-            $productData[$existingProductIndex]['quantity'] = max(1, $productData[$existingProductIndex]['quantity'] +1);
+            // If the product exists, increment its quantity
+            $newQuantity = min($product->qnt, $productData[$existingProductIndex]['quantity'] + 1);
+
+            // Check if the new quantity is available
+            if (!self::isQuantitySufficient($productId, $newQuantity)) {
+                throw new \Exception('Insufficient quantity available for the product.');
+            }
+
+            $productData[$existingProductIndex]['quantity'] = $newQuantity;
 
             // If the quantity becomes zero or negative, remove the product from the array
-            if ($productData[$existingProductIndex]['quantity'] <= 0) {
+            if ($newQuantity <= 0) {
                 unset($productData[$existingProductIndex]);
             }
 
@@ -144,4 +177,19 @@ class CookieSD
             Cookie::queue(Cookie::forever('product_data', $encodedProductData));
         }
     }
+
+
+    private static function isQuantitySufficient(int $productId, int $newQuantity): bool
+{
+    // Retrieve the product from the database
+    $product = Product::find($productId);
+
+    if (!$product) {
+        // Handle the case where the product is not found
+        return false;
+    }
+
+    // Check if the available quantity is sufficient
+    return $product->qnt >= $newQuantity;
+}
 }

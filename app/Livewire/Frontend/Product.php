@@ -3,21 +3,20 @@
 namespace App\Livewire\Frontend;
 
 use App\Helpers\CookieSD;
+use App\Models\Campaign;
 use App\Models\Product as ModelsProduct;
+use App\Models\ProductCategory;
 use Livewire\Component;
 
 
 class Product extends Component
 {
-    public function addToCart($productId,$qnt = null)
+    public function addToCart($productId,$qnt)
     {
-        if (ModelsProduct::find($productId)->stock_status == 0) {
-            return back();
-        }
-        $quantity = $qnt?$qnt:1;
-        CookieSD::addToCookie($productId, $quantity);
+        CookieSD::addToCookie($productId, $qnt);
         // Emit an event to notify other components
         $this->dispatch('post-created');
+
     }
 
 
@@ -26,10 +25,14 @@ class Product extends Component
         $latest     = ModelsProduct::latest()->get()->take(8);
         $featured   = ModelsProduct::where('featured', 1)->latest()->get()->take(8);
         $popular    = ModelsProduct::where('popular', 1)->latest()->get()->take(8);
+        $category   = ProductCategory::all();
+        $vertical   = Campaign::where('image_type','vertical')->first();
         return view('livewire..frontend.product', [
             'latests'       => $latest,
             'featureds'     => $featured,
             'populars'      => $popular,
+            'categories'    => $category,
+            'ads'           => $vertical,
         ]);
     }
 }

@@ -35,7 +35,7 @@ class Addcampaign extends Component
                         $query->where('name', 'like', '%' . $this->search . '%');
                     });
 
-        $data = $requests->where('stock_status',1)->paginate(5);
+        $data = $requests->paginate(5);
         return view('livewire.backend.addcampaign',[
             'requests' => $data
         ]);

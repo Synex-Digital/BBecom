@@ -16,7 +16,10 @@ $config = Config::first();
     @if ($config)
         <link rel="shortcut icon" href="{{ asset('files/config/'.$config->logo) }}" type="image/x-icon">
     @endif
+    <link rel='stylesheet' href='{{ asset('frontend/css/icon.css') }}'>
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/maind134.css?v=3.4">
+    @include('frontend.3rdLink.header')
+    @yield('style')
     @livewireStyles
 </head>
 
@@ -36,6 +39,7 @@ $config = Config::first();
     {{-- main --}}
 
     {{-- footer --}}
+    @include('frontend.3rdLink.body')
     @include('frontend.layouts.footer')
 
     <!-- Vendor JS-->

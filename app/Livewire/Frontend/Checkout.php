@@ -2,29 +2,36 @@
 
 namespace App\Livewire\Frontend;
 
-use App\Helpers\CookieSD;
 use App\Models\Order;
-use App\Models\OrderProduct;
-use App\Models\Shipping;
+use App\Models\Product;
 use Livewire\Component;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Validate;
-use Illuminate\Support\Facades\Cookie;
+use App\Models\Shipping;
+use App\Helpers\CookieSD;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
+use App\Models\OrderProduct;
+use Livewire\Attributes\Validate;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cookie;
 
 
 class Checkout extends Component
 {
     public $shipping_id = null;
+    public $message = null;
 
     #[Validate('required')]
-    public $shippingPrice = 0;
+    public $shippingPrice = null;
 
-    #[Validate('required')]
+    #[Validate('required|string|min:4')]
     public $name = '';
 
-    #[Validate('required')]
+    #[Validate('required|string|min:11|max:11')]
     public $number = '';
+
+    #[Validate('required|email')]
+    public $email = '';
 
     #[Validate('required')]
     public $address = '';
@@ -38,13 +45,11 @@ class Checkout extends Component
     public function increment($id){
         CookieSD::increment($id);
         $this->dispatch('post-created');
-
     }
 
     public function decrement($id){
         CookieSD::decrement($id);
         $this->dispatch('post-created');
-
     }
 
     public function remove($id)
@@ -66,37 +71,57 @@ class Checkout extends Component
 
         //getting cookie data
         $cookieData = CookieSD::data();
+        $shipping_charge = Shipping::find($this->shipping_id);
 
-        //dd($cookieData['products']);
-        $orderID = 'ORD' . now()->format('YmdHis'). strtoupper(Str::random(4));
+        $orderID = 'OD' . now()->format('md'). strtoupper(Str::random(4)).now()->format('Hs');
 
-        $order = new Order();
-        $order->order_id     = $orderID;
-        $order->name         = $this->name;
-        $order->number       = $this->number;
-        $order->address      = $this->address;
-        $order->shipping_id  = $this->shipping_id;
-        $order->price        = $cookieData['price']+$this->shippingPrice;
-        $order->status       = 'pending';
-        $order->save();
 
-        foreach ($cookieData['products'] as $key => $value) {
-            $order_product = new OrderProduct();
-            $order_product->order_id    = $order->id;
-            $order_product->product_id  = $value->id;
-            $order_product->price       = $value->price - ($value->price*$value->discount/100);
-            $order_product->qnt         = $value->quantity;
-            $order_product->save();
+        try {
+            DB::beginTransaction();
 
+            $order = new Order();
+            $order->order_id            = $orderID;
+            $order->name                = $this->name;
+            $order->number              = $this->number;
+            $order->email               = $this->email;
+            $order->address             = $this->address;
+            $order->client_message      = $this->message;
+            $order->shipping_charge     = $shipping_charge?$shipping_charge->price:0;
+            $order->price               = $cookieData['price']+$this->shippingPrice;
+            $order->order_status        = 'pending';
+            $order->payment_status      = 'processing';
+            $order->save();
+
+            foreach ($cookieData['products'] as $value) {
+                $product = Product::find($value->id);
+                $product->qnt = $product->qnt - $value->quantity;
+                $product->save();
+
+                $order_product = new OrderProduct();
+                $order_product->order_id    = $order->id;
+                $order_product->product_id  = $value->id;
+                $order_product->price       = $value->price - ($value->price*$value->discount/100);
+                $order_product->qnt         = $value->quantity;
+                $order_product->save();
+            }
+
+            $this->name = '';
+            $this->number = '';
+            $this->address = '';
+            $this->shippingPrice = 0;
+            Cookie::queue(Cookie::forget('product_data'));
+            $this->dispatch('post-created');
+
+            DB::commit();
+            return redirect()->route('thankyou');
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            $this->addError('cart', 'try again later');
+            return;
         }
 
-        $this->name = '';
-        $this->number = '';
-        $this->address = '';
-        $this->shippingPrice = 0;
-        Cookie::queue(Cookie::forget('product_data'));
-        $this->dispatch('post-created');
-        return redirect()->route('thankyou');
+
     }
 
     public function ship($id){

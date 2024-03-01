@@ -21,7 +21,7 @@ class CouponController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {   
+    {
         $couponTypes = Coupon::TYPES;
         return view('backend.coupon.create_coupon', compact('couponTypes'));
     }
@@ -32,11 +32,11 @@ class CouponController extends Controller
     public function store(Request $request)
     {
 
-  
+
        // Validate the request data
      $request->validate([
         'coupon_type' => 'required',
-        'coupon_code' => 'required|unique:coupons,code', 
+        'coupon_code' => 'required|unique:coupons,code',
         'coupon_value' => 'required|numeric',
     ]);
 
@@ -48,7 +48,7 @@ class CouponController extends Controller
     $coupon->save();
 
     return back()->with('success', 'Coupon created successfully!');
-        
+
 
     }
 
@@ -75,11 +75,11 @@ class CouponController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+
        // Validate the request data
      $request->validate([
         'coupon_type' => 'required',
-        'coupon_code' => 'required|unique:coupons,code', 
+        'coupon_code' => 'required|unique:coupons,code',
         'coupon_value' => 'required|numeric',
     ]);
     $coupon =Coupon::find($id);
@@ -89,7 +89,7 @@ class CouponController extends Controller
     $coupon->save();
 
     return back()->with('success', 'Coupon updated successfully!');
-   
+
     }
 
     /**

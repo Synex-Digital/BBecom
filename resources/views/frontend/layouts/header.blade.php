@@ -164,7 +164,6 @@
     </div>
 </div>
 
-
 <header class="header-area header-style-1 header-height-2">
     {{-- Top Header --}}
     <div class="header-top header-top-ptb-1 d-none d-lg-block">
@@ -519,12 +518,13 @@
     </div>
 </header>
 
-
 <div class="mobile-header-active mobile-header-wrapper-style">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-top">
             <div class="mobile-header-logo">
-                <a href="{{ route('index') }}"><img src="{{ asset('files/config/'.$config->logo) }}" alt="logo"></a>
+                @if ($config)
+                    <a href="{{ route('index') }}"><img src="{{ asset('files/config/'.$config->logo) }}" alt="logo"></a>
+                @endif
             </div>
             <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                 <button class="close-style search-close">

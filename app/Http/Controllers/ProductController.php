@@ -41,12 +41,17 @@ class ProductController extends Controller
             'btn'   => 'required',
         ]);
 
-        if ($request->btn == 'cart') {
+        try {
             CookieSD::addToCookie($request->id, $request->qnt);
+        } catch (\Exception $e) {
+            // Catch the exception and redirect back with a warning message
+            return back()->with('err', 'Warning: ' . $e->getMessage());
+        }
+
+        if ($request->btn == 'cart') {
             return back();
         }
         if ($request->btn == 'buy') {
-            CookieSD::addToCookie($request->id, $request->qnt);
             return redirect()->route('checkout');
         }
     }

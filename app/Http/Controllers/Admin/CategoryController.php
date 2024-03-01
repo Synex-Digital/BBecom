@@ -31,7 +31,7 @@ class CategoryController extends Controller
             'category_name'     => 'required',
             'category_image'    => 'required',
         ]);
-        Photo::upload($request->category_image, 'files/category', $request->category_name,[152, 105]);
+        Photo::upload($request->category_image, 'files/category', $request->category_name,[200,200]);
         ProductCategory::insert([
             'category_name'     => $request->category_name,
             'slugs'             => Str::slug($request->category_name),
@@ -80,7 +80,7 @@ class CategoryController extends Controller
 
         if ($request->category_image) {
             Photo::delete('files/category',$category->category_image);
-            Photo::upload($request->category_image, 'files/category', 'CAT',[152, 105]);
+            Photo::upload($request->category_image, 'files/category', 'CAT',[200, 200]);
             $category->category_image  = Photo::$name;
         }
 

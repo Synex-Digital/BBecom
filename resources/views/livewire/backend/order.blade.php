@@ -1,3 +1,25 @@
+@php
+    function getStatusColor($status) {
+        switch ($status) {
+            case 'pending':
+                return 'warning';
+            case 'processing':
+                return 'info';
+            case 'shipping':
+                return 'primary';
+            case 'return':
+                return 'secondary';
+            case 'cancel':
+                return 'danger';
+            case 'damage':
+                return 'dark';
+            case 'delieverd':
+                return 'success';
+            default:
+                return 'secondary';
+        }
+    }
+@endphp
 <form action="{{ route('csv.download') }}" method="POST" class="content-main">
     @csrf
     <div class="content-header">
@@ -13,7 +35,7 @@
         <header class="card-header">
             <div class="row gx-3">
                 <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" wire:model.live="search" placeholder="Search..." class="form-control">
+                    <input type="date" wire:model.live="date" class="form-control">
                 </div>
                 <div class="col-lg-2 col-6 col-md-3">
                     <select class="form-select" wire:model.live="status">
@@ -48,7 +70,7 @@
                     </thead>
                     <tbody>
                         @foreach ($orders as $order)
-                            <tr>
+                            <tr @if($order->notification == 1) style="background: #6de9ed2b;" @endif>
                                 <td>
                                     <input class="form-check-input" name="status[]" type="checkbox" value="{{ $order->id }}" wire:model="check">
                                 </td>
@@ -58,7 +80,7 @@
                                 </b></td>
                                 <td>{{ $order->number }}</td>
                                 <td>৳ {{ $order->price }}</td>
-                                <td><span class="badge rounded-pill alert-warning">{{ $order->status }}</span></td>
+                                <td><span class="badge rounded-pill alert-{{ getStatusColor($order->order_status) }}">{{ $order->order_status }}</span></td>
                                 <td>{{ $order->created_at->format('D M y') }}</td>
                                 <td class="text-end">
                                     <a href="{{ route('admin.order.view',$order->id) }}" class="btn btn-md rounded font-sm">Detail</a>

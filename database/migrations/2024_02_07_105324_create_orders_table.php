@@ -20,13 +20,15 @@ return new class extends Migration
             $table->string('address');
             $table->decimal('shipping_charge',10,2)->nullable();
             $table->decimal('price', 10, 2)->default(0.00);
+            $table->decimal('offer_price', 10, 2)->default(0.00);
             $table->bigInteger('coupon_id')->nullable();
             $table->bigInteger('coupon_amount')->nullable();
             $table->enum('order_status',['pending','processing','shipping','return','cancel','damage','delieverd']);
             $table->longText('client_message')->nullable();
             $table->longText('admin_message')->nullable();
             $table->bigInteger('payment_method')->nullable(); //future payment
-            $table->enum('payment_status',['processing','paid','cancel'])->default('processing');
+            $table->enum('payment_status',['processing','paid','due','cancel'])->default('processing');
+            $table->integer('notification')->default(1);
             $table->timestamps();
         });
     }

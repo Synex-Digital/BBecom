@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-4">
-                                    <label for="product_name" class="form-label">Category Image</label>
+                                    <label for="product_name" class="form-label">Category Image <span style="margin-left: 2px; font-size: 10px;color: #088178">Size( w-200, h-200)</span></label>
                                     <input type="file" class="form-control" name="category_image">
                                 </div>
                             </div>

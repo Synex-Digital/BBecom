@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FrontendController::class, 'home'])->name('index');
 
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/products/{slugs}', [ControllersProductController::class, 'single'])->name('product.view');
 Route::post('/add/cart', [ControllersProductController::class, 'cart'])->name('addtocart');
 Route::get('/categories/{slugs}', [ControllersCategoryController::class, 'index'])->name('front.category');
@@ -53,6 +53,7 @@ Route::middleware(['admin'])->prefix('sd_admin')->group(function () {
     Route::get('/create/admin', [AdminController::class, 'create_admin'])->name('create.admin');
     Route::post('/create/role/admin', [AdminController::class, 'create_role_admin'])->name('create.role.admin');
     Route::get('/order',[AdminOrder::class, 'order'])->name('admin.order');
+    Route::post('/order/payment',[AdminOrder::class, 'payment'])->name('add.payment');
     Route::get('/order/view/{id}',[AdminOrder::class, 'orderView'])->name('admin.order.view');
     Route::post('/order/view/modify',[AdminOrder::class, 'orderViewModify'])->name('admin.order.modify');
     Route::post('/csv/download',[AdminOrder::class, 'csvDownload'])->name('csv.download');

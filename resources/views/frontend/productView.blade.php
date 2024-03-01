@@ -12,6 +12,13 @@
     </div>
     <section class="mt-50 mb-50">
         <div class="container">
+            @if (session('err'))
+                <div class="alert alert-danger">
+                    <ul>
+                        <li>{{ session('err') }}</li>
+                    </ul>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-12">
                     <div class="product-detail accordion-detail">
@@ -78,7 +85,8 @@
                                     </form>
                                     <a href="tel:+8801888477155" class="btn btn-outline btn-sm text-primary">Call Us : 01888477155</a>
                                     <ul class="product-meta font-xs color-grey mt-50">
-                                        <li>Availability:<span class="in-stock text-{{ $product->stock_status == 1 ? 'success':'danger' }} ml-5">{{ $product->stock_status == 1 ? 'Available':'Stock Out' }}</span></li>
+                                        <li>SKU :<span class="in-stock text-black ml-5">{{ $product->sku }}</span></li>
+                                        <li>Availability :<span class="in-stock text-{{ $product->qnt > 0 ? 'success':'danger' }} ml-5">{{ $product->qnt  }} Available</span></li>
                                     </ul>
                                 </div>
                                 <!-- Detail Info -->
@@ -192,5 +200,4 @@
         </div>
     </section>
 </main>
-
 @endsection

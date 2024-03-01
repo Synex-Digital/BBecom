@@ -12,9 +12,10 @@ class Order extends Component
 {
     use WithPagination;
 
-    public $search = '';
-    public $status = '';
-    public $check = [];
+    public $search  = '';
+    public $status  = '';
+    public $date    = '';
+    public $check   = [];
 
 
     // public function checkRender()
@@ -64,10 +65,14 @@ class Order extends Component
                     $query->where('order_id', 'like', '%' . $this->search . '%')
                     ->orWhere('name', 'like', '%' . $this->search . '%')
                     ->orWhere('number', 'like', '%' . $this->search . '%');
-                });
+                })
+                ->when($this->date, function ($query) {
+                    $query->whereDate('created_at', '>=', $this->date);
+                })
+                ;
 
         if ($this->status != '') {
-            $query->where('status', $this->status);
+            $query->where('order_status', $this->status);
         }
 
         // if ($this->category !== '') {
