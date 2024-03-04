@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('number');
             $table->string('address');
+            $table->string('url');
             $table->string('logo');
             $table->timestamps();
         });

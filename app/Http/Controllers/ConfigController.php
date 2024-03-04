@@ -40,6 +40,7 @@ class ConfigController extends Controller
             'number'    => 'required',
             'address'   => 'required',
             'logo'      => 'required',
+            'url'       => 'required',
         ]);
 
         if (Config::count() != 0) {
@@ -51,11 +52,12 @@ class ConfigController extends Controller
         }
 
         $config = new Config();
-        $config->name = $request->name;
-        $config->email = $request->email;
-        $config->number = $request->number;
-        $config->address = $request->address;
-        $config->logo = $request->logo ? Photo::$name : 'null';
+        $config->name       = $request->name;
+        $config->email      = $request->email;
+        $config->number     = $request->number;
+        $config->url       = $request->url;
+        $config->address    = $request->address;
+        $config->logo       = $request->logo ? Photo::$name : 'null';
         $config->save();
         return back()->with('succ', 'Successfully configure');
     }

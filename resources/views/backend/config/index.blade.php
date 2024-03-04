@@ -57,6 +57,13 @@
 
                         <div class="col-lg-6">
                             <div class="mb-4">
+                                <label for="product_name" class="form-label">Site URL</label>
+                                <input type="text" placeholder="https://google.com" class="form-control" name="url">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="mb-4">
                                 <label for="product_name" class="form-label">Site Logo</label>
                                 <input type="file" class="form-control" name="logo">
                             </div>

@@ -29,6 +29,7 @@
                     <div class="content-header">
                         <h2 class="content-title">Add New Product</h2>
                         <div>
+                            <a class="btn btn-md btn-primary mr-5 font-sm hover-up" href="{{ route('product.index') }}">Product list</a>
                             <button type="submit" name="btn" value="deactive"
                                 class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
                             <button type="submit" name="btn" value="active"

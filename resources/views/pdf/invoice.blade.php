@@ -1,7 +1,10 @@
 <?php
-    $total = 0;
-?>
+    use App\Models\Config;
 
+    $config = Config::first();
+    $total = 0;
+
+?>
 <html>
 <head>
     <style>
@@ -54,13 +57,17 @@
 
 <body>
     <table width="100%" style="font-family: sans-serif;" cellpadding="10">
-        <tr>
-            {{-- <td width="100%" style="padding: 0px; text-align: center;">
-              <a href="#" target="_blank">
-                <img src="logo" width="264" height="110" alt="Logo" align="center" border="0">
-              </a>
-            </td> --}}
-        </tr>
+        {{-- @if ($config)
+            <link rel="shortcut icon" href="{{ asset('files/config/'.$config->logo) }}" type="image/x-icon">
+            <tr>
+                <td width="100%" style="padding: 0px; text-align: center;">
+                  <a href="#" target="_blank">
+                    <img src="{{ asset('files/config/'.$config->logo) }}" width="264" height="110" alt="Logo" align="center" border="0">
+                  </a>
+                </td>
+            </tr>
+        @endif --}}
+
         <tr>
             <td width="100%" style="text-align: center; font-size: 20px; font-weight: bold; padding: 0px;">
               INVOICE
@@ -72,9 +79,13 @@
     </table>
     <table width="100%" style="font-family: sans-serif;" cellpadding="10">
         <tr>
-            <td width="49%" style="border: 0.1mm solid #eee;">{{ $data->name }}<br>{{ $data->number }}<br>{{ $data->address }}</td>
+            <td width="49%">{{ $data->name }}<br>{{ $data->number }}<br>{{ $data->email }}<br>{{ $data->address }}</td>
             <td width="2%">&nbsp;</td>
-            <td width="49%" style="border: 0.1mm solid #eee; text-align: right;"><strong>Familly Bazar</strong><br>Zigatola Dhanmondi<br>Dhaka<br><br><br><strong>Telephone:</strong> +880188477155<br><a href="https://famillybazar.com" target="_blank" style="color: #000; text-decoration: none;">famillybazar.com</a><br></td>
+            <td width="49%" style=" text-align: right;"><strong>{{ $config->name }}</strong><br>
+                {{ $config->address }}<br><br><br>
+                <strong>Phone:</strong> {{ $config->number }}<br>
+                <strong>Email:</strong> {{ $config->email }}<br>
+                <a href="{{ $config->url }}" target="_blank" style="color: #000; text-decoration: none;">{{ $config->url }}</a><br></td>
         </tr>
     </table>
     <br>
@@ -86,10 +97,10 @@
                         <td style="padding: 0px; line-height: 20px;">&nbsp;</td>
                     </tr>
                 </table>
-                <table width="40%" align="right" style="font-family: sans-serif; font-size: 14px;" >
+                <table width="30%" align="right" style="font-family: sans-serif; font-size: 14px;" >
                     <tr>
-                        <td style="border: 1px #eee solid; padding: 0px 8px; line-height: 20px;"><strong>Order ID</strong></td>
-                        <td style="border: 1px #eee solid; padding: 0px 8px; line-height: 20px;">{{ $data->order_id }}</td>
+                        <td style="padding: 0px 8px; line-height: 20px;"><strong>ID</strong></td>
+                        <td style="padding: 0px 8px; line-height: 20px;">{{ $data->order_id }}</td>
                     </tr>
                     </tr>
                 </table>
@@ -112,7 +123,7 @@
                 <tr>
                     <td style="padding: 0px 7px; line-height: 20px;">{{ $product->product?$product->product->name:'Unknown' }}</td>
                     <td style="padding: 0px 7px; line-height: 20px;">{{ $product->price }} Tk</td>
-                    <td style="padding: 0px 7px; line-height: 20px;">{{ $product->qnt }} TK</td>
+                    <td style="padding: 0px 7px; line-height: 20px;">{{ $product->qnt }}</td>
                     <td style="padding: 0px 7px; line-height: 20px;">{{ $product->price * $product->qnt }} Tk</td>
                     <?php $total += $product->price * $product->qnt ?>
                 </tr>
@@ -130,16 +141,16 @@
                 </table>
                 <table width="40%" align="right" style="font-family: sans-serif; font-size: 14px;" >
                     <tr>
-                        <td style="border: 1px #eee solid; padding: 0px 8px; line-height: 20px;"><strong>Total Amount</strong></td>
-                        <td style="border: 1px #eee solid; padding: 0px 8px; line-height: 20px;">{{ $total }} Tk</td>
+                        <td style="padding: 0px 8px; line-height: 20px;"><strong>Total Amount</strong></td>
+                        <td style="padding: 0px 8px; line-height: 20px;">{{ $total }} Tk</td>
                     </tr>
                     <tr>
-                        <td style="border: 1px #eee solid; padding: 0px 8px; line-height: 20px;"><strong>Shipping fee</strong></td>
-                        <td style="border: 1px #eee solid; padding: 0px 8px; line-height: 20px;">{{ $data->shipping?$data->shipping->price:'Unknown' }} Tk</td>
+                        <td style="padding: 0px 8px; line-height: 20px;"><strong>Shipping fee</strong></td>
+                        <td style="padding: 0px 8px; line-height: 20px;">{{ $data->shipping_charge }} Tk</td>
                     </tr>
                     <tr>
-                        <td style="border: 1px #eee solid; padding: 0px 8px; line-height: 20px;"><strong>Grand total</strong></td>
-                        <td style="border: 1px #eee solid; padding: 0px 8px; line-height: 20px;">{{ $data->price }} Tk</td>
+                        <td style="padding: 0px 8px; line-height: 20px;"><strong>Grand total</strong></td>
+                        <td style="padding: 0px 8px; line-height: 20px;">{{ $data->price }} Tk</td>
                     </tr>
                 </table>
             </td>

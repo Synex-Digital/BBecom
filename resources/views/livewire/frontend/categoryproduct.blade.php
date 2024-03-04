@@ -61,56 +61,7 @@
                     <div class="row product-grid-3">
                         @foreach ($products as $product)
                             <div class="col-lg-4 col-md-4 col-12 col-sm-6">
-                                <div class="product-cart-wrap mb-30">
-                                    <div class="product-img-action-wrap">
-                                        <div class="product-img product-img-zoom">
-                                            <a href="{{ route('product.view', $product->slugs) }}">
-                                                @if ($product->images)
-                                                    @foreach ($product->images->take(2) as $key => $image)
-                                                        <img class="{{ $key + 1 == 1 ? 'default-img' : 'hover-img' }}"
-                                                            src="{{ asset('files/product/' . $image->image) }}"
-                                                            alt="">
-                                                    @endforeach
-                                                @endif
-                                                <img class="default-img" src="assets/imgs/shop/product-2-1.jpg" alt="">
-                                                <img class="hover-img" src="assets/imgs/shop/product-2-2.jpg" alt="">
-                                            </a>
-                                        </div>
-                                        @if ($product->featured == 1)
-                                            <div class="product-badges product-badges-position product-badges-mrg">
-                                                <span class="best">Featured</span>
-                                            </div>
-                                        @elseif ($product->popular == 1)
-                                            <div class="product-badges product-badges-position product-badges-mrg">
-                                                <span class="new">Popular</span>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-category">
-                                            <a href="#">{{ $product->category ? $product->category->category_name : 'Random' }}</a>
-                                        </div>
-                                        <h2><a href="{{ route('product.view', $product->slugs) }}">{{ $product->name }}</a></h2>
-                                        {{-- <div class="rating-result" title="90%">
-                                            <span>
-                                                <span>90%</span>
-                                            </span>
-                                        </div> --}}
-                                        <div class="product-price">
-                                            <span>{{ $product->finalPrice }} </span>
-                                            @if ($product->discount != 0)
-                                                <span class="old-price">{{ $product->price }}</span>
-                                            @endif
-                                            {{-- <span class="old-price">$245.8</span> --}}
-                                        </div>
-                                        {{-- <div class="product-action-1 show">
-                                            <a aria-label="Add To Cart" class="action-btn hover-up" wire:click="addToCart({{ $product->id }})"><i class="fi-rs-shopping-bag-add"></i></a>
-                                        </div> --}}
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <a href="{{ route('product.view', $product->slugs) }}" class="btn btn-sm btn-primary" style="width: 100%"> Order now </a>
-                                    </div>
-                                </div>
+                                <x-product :product="$product"/>
                             </div>
                         @endforeach
                     </div>

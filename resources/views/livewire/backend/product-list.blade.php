@@ -5,7 +5,7 @@
             {{-- <p>Here Your All Catego.</p> --}}
         </div>
         <div>
-            <input type="text" placeholder="Search order ID" class="form-control" wire:model.live="search">
+            <a class="btn btn-sm btn-primary" href="{{ route('product.create') }}">Add Product</a>
         </div>
     </div>
     <div class="card mb-4">
@@ -48,7 +48,10 @@
                     <tbody>
                         @foreach ($requests as $key => $request)
                             <tr>
-                                <td><b>{{ $request->name }}</b></td>
+                                <td>
+                                    {{ $request->name }}<br>
+                                    <strong style="font-size: 12px;"> SKU : <span style=" font-weight: 800">{{ $request->sku }} </span></strong>
+                                </td>
                                 {{-- <td><b>{{ $request->category ? $request->category->category_name : 'Unknow' }}</b></td> --}}
                                 <td>
                                     @if ($request->images != null)
@@ -94,13 +97,6 @@
                                                 clip-rule="evenodd" />
                                         </svg>
                                     </a>
-                                    {{-- <a href="" class="rounded font-sm p-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                            viewBox="0 0 24 24">
-                                            <path fill="currentColor"
-                                                d="m12 18l4-4l-1.4-1.4l-1.6 1.6V10h-2v4.2l-1.6-1.6L8 14zM5 8v11h14V8zm0 13q-.825 0-1.412-.587T3 19V6.525q0-.35.113-.675t.337-.6L4.7 3.725q.275-.35.687-.538T6.25 3h11.5q.45 0 .863.188t.687.537l1.25 1.525q.225.275.338.6t.112.675V19q0 .825-.587 1.413T19 21zm.4-15h13.2l-.85-1H6.25zm6.6 7.5" />
-                                        </svg>
-                                    </a> --}}
                                 </td>
                             </tr>
                         @endforeach
@@ -110,6 +106,6 @@
         </div> <!-- card-body end// -->
     </div> <!-- card end// -->
     <div class="pagination-area mt-15 mb-50">
-
+        {{ $requests->links('livewire::bootstrap') }}
     </div>
 </section>

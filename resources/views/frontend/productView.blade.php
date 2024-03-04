@@ -141,51 +141,9 @@
                             <div class="col-12">
                                 <div class="row related-products">
                                     @if ($related)
-                                        @foreach ($related as $pupolar)
+                                        @foreach ($related as $product)
                                         <div class="col-lg-3 col-md-4 col-12 col-sm-6">
-                                            <div class="product-cart-wrap mb-30">
-                                                <div class="product-img-action-wrap">
-                                                    <div class="product-img product-img-zoom">
-                                                        <a href="{{ route('product.view', $pupolar->slugs) }}">
-                                                            @if ($pupolar->images)
-                                                                @foreach ($pupolar->images->take(2) as $key => $image)
-                                                                    <img class="{{ $key + 1 == 1 ? 'default-img' : 'hover-img' }}"
-                                                                        src="{{ asset('files/product/' . $image->image) }}"
-                                                                        alt="">
-                                                                @endforeach
-                                                            @endif
-                                                            {{-- <img class="" src="assets/imgs/shop/product-2-2.jpg" alt=""> --}}
-                                                        </a>
-                                                    </div>
-                                                    @if ($pupolar->featured == 1)
-                                                        <div class="product-badges product-badges-position product-badges-mrg">
-                                                            <span class="best">Featured</span>
-                                                        </div>
-                                                    @elseif ($pupolar->popular == 1)
-                                                        <div class="product-badges product-badges-position product-badges-mrg">
-                                                            <span class="new">Popular</span>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                                <div class="product-content-wrap">
-                                                    <div class="product-category">
-                                                        <a
-                                                            href="">{{ $pupolar->category ? $pupolar->category->category_name : 'Random' }}</a>
-                                                    </div>
-                                                    <h2><a
-                                                            href="{{ route('product.view', $pupolar->slugs) }}">{{ $pupolar->name }}</a>
-                                                    </h2>
-                                                    <div class="product-price">
-                                                        <span>৳ {{ $pupolar->finalPrice }}</span>
-                                                        @if ($pupolar->discount != 0)
-                                                            <span class="old-price">{{ $pupolar->price }}</span>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="product-content-wrap">
-                                                    <a href="{{ route('product.view', $pupolar->slugs) }}" class="btn btn-sm btn-primary" style="width: 100%"> Order now </a>
-                                                </div>
-                                            </div>
+                                            <x-product :product="$product"/>
                                         </div>
                                         @endforeach
                                     @endif

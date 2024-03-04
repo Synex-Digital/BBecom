@@ -23,7 +23,15 @@
             {{-- wire:click="addToCart({{ $product->id }},1)" --}}
 
         <div class="product-badges product-badges-position product-badges-mrg">
-            <span class="hot">Hot</span>
+            @if ($product->featured == 1)
+                <span class="hot">
+                    Featured
+                </span>
+            @elseif ($product->popular == 1)
+                <span class="new">
+                    Popular
+                </span>
+            @endif
         </div>
     </div>
     <div class="product-content-wrap">

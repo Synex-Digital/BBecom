@@ -1,4 +1,7 @@
 @extends('backend.master')
+@section('style')
+<script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+@endsection
 @section('content')
     <section class="content-main">
 
@@ -87,7 +90,7 @@
                                             <div class="col-12">
                                                 <div class="mb-4">
                                                     <label for="product_name" class="form-label">Description</label>
-                                                    <textarea id="summernote" class="form-control" name="description" id="" cols="30" rows="10"
+                                                    <textarea id="description" class="form-control" name="description" id="" cols="30" rows="10"
                                                         placeholder="Short details">{{ $request->description }}</textarea>
                                                 </div>
                                             </div>
@@ -203,13 +206,6 @@
                                                 </ul class="list-group">
                                                     @foreach ($request->services as $service)
                                                         <li class="list-group-item">{{ $service->service?$service->service->message:'Unknown' }}</li>
-                                                        {{-- <div class="form-check">
-                                                            <input class="form-check-input" name="service[]" type="checkbox"
-                                                                value="{{ $service->id }}" id="{{ $service->id }}">
-                                                            <label class="form-check-label" style="font-size: 10.5px"
-                                                                for="{{ $service->id }}">
-                                                                {{ $service->message }} </label>
-                                                        </div> --}}
                                                     @endforeach
                                                 @endif
                                             </div>
@@ -241,85 +237,7 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                        {{-- <div class="card mb-4">
-                    <div class="card-header">
-                        <h6>Basic</h6>
-                    </div>
-                    <div class="card-body">
-                        <form action="{{ route('product.update', $request->id) }}" method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-                            @csrf
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Select A Category</label>
-                                        <select class="form-select" name="category_id">
-                                            @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}"> {{ $category->category_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Product Name</label>
-                                        <input type="text" placeholder="Entire Name" class="form-control"
-                                            name="product_name" value="{{ $request->product_name }}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">SEO Titile</label>
-                                        <input type="text" placeholder="Entire Email" class="form-control"
-                                            name="seo_title" value="{{ $request->seo_title }}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">SEO Tags</label>
-                                        <input type="text" placeholder="Entire Tags" class="form-control" name="seo_tags"
-                                            value="{{ $request->seo_tags }}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">SEO Description</label>
-                                        <textarea class="form-control" name="seo_description" id="" cols="30" rows="10">{{ $request->seo_description }}</textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Product Description</label>
-                                        <textarea class="form-control" name="product_description" id="" cols="30" rows="10">{{ $request->product_description }}</textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label">Product Image</label>
-                                        <input type="file" class="form-control" name="product_image">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label"></label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label for="product_name" class="form-label"></label>
-                                        <button type="submit"
-                                            class="btn btn-light rounded font-sm mr-5 text-body hover-up">+ Admin</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div> <!-- card end// --> --}}
                     </div>
                 </div>
             </form>
@@ -327,15 +245,12 @@
     </section>
 @endsection
 @section('script')
-    <script>
-        $(document).ready(function() {
-            $(document).ready(function() {
-                $('#summernote').summernote({
-                    placeholder: 'Description',
-                    tabsize: 2,
-                    height: 300
-                });
-            });
-        });
-    </script>
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#description' ))
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
+
 @endsection

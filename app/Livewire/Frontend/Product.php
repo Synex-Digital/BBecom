@@ -22,9 +22,9 @@ class Product extends Component
 
     public function render()
     {
-        $latest     = ModelsProduct::latest()->get()->take(8);
-        $featured   = ModelsProduct::where('featured', 1)->latest()->get()->take(8);
-        $popular    = ModelsProduct::where('popular', 1)->latest()->get()->take(8);
+        $latest     = ModelsProduct::where('status','active')->latest()->get()->take(8);
+        $featured   = ModelsProduct::where('status','active')->where('featured', 1)->latest()->get()->take(8);
+        $popular    = ModelsProduct::where('status','active')->where('popular', 1)->latest()->get()->take(8);
         $category   = ProductCategory::all();
         $vertical   = Campaign::where('image_type','vertical')->first();
         return view('livewire..frontend.product', [
