@@ -9,7 +9,7 @@ return [
          * The default configurations to be used by the meta generator.
          */
         'defaults'       => [
-            'title'        => "Familly Bazar", // set false to total remove
+            'title'        => false, // set false to total remove
             'titleBefore'  => false, // Put defaults.title before page title, like 'It's Over 9000! - Dashboard'
             'description'  => 'Explore a diverse selection of high-quality goods for every member of your family at Familly Bazar. From trendy clothing to essential household items, find everything you need in one convenient location. Shop smart and save time with Familly Bazar!', // set false to total remove
             'separator'    => ' - ',

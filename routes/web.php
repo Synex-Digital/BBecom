@@ -14,6 +14,7 @@ use App\Http\Controllers\AdminOrder;
 use App\Http\Controllers\CategoryController as ControllersCategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ConfigController;
+use App\Http\Controllers\CustomLinkController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FeaturesController;
 use App\Http\Controllers\FrontendController;
@@ -61,6 +62,7 @@ Route::middleware(['admin'])->prefix('sd_admin')->group(function () {
     Route::resource('/category', CategoryController::class);
     Route::resource('/banner', BannerController::class);
     Route::resource('/config', ConfigController::class);
+    Route::resource('/customlink', CustomLinkController::class);
     Route::resource('/campaign', CampaignController::class);
     Route::resource('/variation', VariationController::class);
     Route::resource('/product', App\Http\Controllers\Admin\ProductController::class);

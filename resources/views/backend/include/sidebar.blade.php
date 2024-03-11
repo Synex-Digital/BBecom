@@ -87,11 +87,17 @@
                     <span class="text">Shipping</span>
                 </a>
             </li>
-            <li class="menu-item">
-                <a class="menu-link" href="{{ route('config.index') }}"> <i class="icon material-icons md-add_box"></i>
-                    <span class="text">Configuration</span>
-                </a>
-            </li>
+            @if (Auth::guard('admin')->user()->role == 'superAdmin')
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="#"> <i class="icon material-icons md-add_box"></i>
+                        <span class="text">Configuration</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="{{ route('config.index') }}">Site Setting</a>
+                        <a href="{{ route('customlink.index') }}">Custom Code</a>
+                    </div>
+                </li>
+            @endif
         </ul>
         <br>
         <br>

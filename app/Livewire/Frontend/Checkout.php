@@ -113,7 +113,17 @@ class Checkout extends Component
             $this->dispatch('post-created');
 
             DB::commit();
-            return redirect()->route('thankyou');
+
+            $ids = [];
+            foreach ($cookieData['products'] as $value) {
+                $ids[] =$value->id;
+            }
+
+            return redirect()->route('thankyou')->with([
+                'data' => $cookieData,
+                'ids' => json_encode($ids),
+            ]);
+
         } catch (\Exception $e) {
             DB::rollback();
 

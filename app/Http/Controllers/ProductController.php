@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\CookieSD;
+use App\Models\Config;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Artesaos\SEOTools\Facades\SEOTools;
@@ -13,6 +14,7 @@ class ProductController extends Controller
     public function single($slugs){
 
         $product = Product::where('slugs',$slugs)->first();
+        $config = Config::first();
         $relatedProduct = null;
         if ($product->category) {
             $relatedProduct = Product::where('category_id', $product->category->id)->get();
@@ -24,8 +26,9 @@ class ProductController extends Controller
             SEOTools::setDescription($product->seo_description);
             SEOMeta::addKeyword($product->seo_tags);
         }
-
-        SEOMeta::setCanonical('https://synexdigital.com' . request()->getPathInfo());
+        if ($config) {
+            SEOMeta::setCanonical($config->url . request()->getPathInfo());
+        }
 
         return view('frontend.productView',[
             'product' => $product,
@@ -48,11 +51,16 @@ class ProductController extends Controller
             return back()->with('err', 'Warning: ' . $e->getMessage());
         }
 
-        if ($request->btn == 'cart') {
-            return back();
-        }
-        if ($request->btn == 'buy') {
-            return redirect()->route('checkout');
+        // Facebook Pixel events
+        if ($request->btn == 'cart' || $request->btn == 'buy') {
+            $product = Product::find($request->id);
+
+
+            if ($request->btn == 'buy') {
+                return redirect()->route('checkout')->with(['add',$product]);
+            }
+
+            return back()->with(['add'=> $product ,'qnt' => $request->qnt]);
         }
     }
 

@@ -1,13 +1,17 @@
 <meta name="google-site-verification" content="p_MdsFzWZru0FnteMLV_M4hq5tSnaj1ZjR-7ClZv3wg" />
 <!-- Google tag (gtag.js) -->
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q7PMCTTW5P"></script>
 <!-- Google Tag Manager -->
+
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-T5VLKVGV');</script>
 <!-- End Google Tag Manager -->
+
+
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -16,6 +20,8 @@
     gtag('config', 'G-Q7PMCTTW5P');
 </script>
 <!-- Meta Pixel Code -->
+
+
 <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?

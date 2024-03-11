@@ -159,3 +159,52 @@
     </section>
 </main>
 @endsection
+@section('script')
+    <!-- Add the following scripts for GTM data layer and Facebook Pixel -->
+    <script>
+        // Google Tag Manager Data Layer for View Content
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'event': 'viewContent',
+            'pageType': 'product',
+            'pageTitle': '{{ $product->name }}',
+            'contentId': '{{ $product->id }}',
+            'contentName': '{{ $product->name }}',   // Additional: Product name
+            'contentCategory': '{{ $product->category ? $product->category->category_name : 'Uncategorized' }}',
+            'contentList': '{{ $product->category ? $product->category->category_name : 'Uncategorized' }}',
+            'contentPrice': '{{ $product->finalPrice }}',  // Additional: Final price of the product
+            'contentQuantity': 1,  // Additional: Quantity viewed (default is 1)
+            'stockStatus': '{{ $product->stock_status == 1 ? 'In Stock' : 'Out of Stock' }}',
+            'currency': 'BDT',
+            // Add other relevant information specific to your content view
+        });
+
+        // Facebook Pixel Event for View Content
+        fbq('track', 'ViewContent', {
+            content_ids: ['{{ $product->id }}'],
+            content_name: '{{ $product->name }}',
+            content_category: '{{ $product->category ? $product->category->category_name : 'Uncategorized' }}',
+            content_type: 'product',
+            content_list: '{{ $product->category ? $product->category->category_name : 'Uncategorized' }}',
+            value: '{{ $product->finalPrice }}',
+            currency: 'BDT',
+            num_items: 1,
+            'content_status': '{{ $product->stock_status == 1 ? 'In Stock' : 'Out of Stock' }}',
+        });
+    </script>
+    @if (session('add'))
+        <script>
+            fbq('track', 'AddToCart', {
+                content_ids: ['{{ session('add')->id }}'],
+                content_name: '{{ session('add')->name }}',
+                content_category: '{{ session('add')->category ? session('add')->category->category_name : 'Uncategorized' }}',
+                content_type: 'product',
+                content_list: '{{ session('add')->category ? session('add')->category->category_name : 'Uncategorized' }}',
+                value: '{{ session('add')->finalPrice }}',
+                currency: 'BDT',
+                num_items: {{ session('qnt') }},
+            });
+        </script>
+    @endif
+
+@endsection

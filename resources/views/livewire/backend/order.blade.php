@@ -81,7 +81,11 @@
                                 <td>{{ $order->number }}</td>
                                 <td>৳ {{ $order->price }}</td>
                                 <td><span class="badge rounded-pill alert-{{ getStatusColor($order->order_status) }}">{{ $order->order_status }}</span></td>
-                                <td>{{ $order->created_at->format('D M y') }}</td>
+                                <td>
+                                    {{ $order->created_at->format('D M y') }}
+                                    <br>
+                                    <span style="font-size: 11px;background: #cbcbcb4f;padding: 2px 7px 2px 7px;border-radius: 10px;color:#00000091">{{ $order->created_at->format('g:i A') }}</span>
+                                </td>
                                 <td class="text-end">
                                     <a href="{{ route('admin.order.view',$order->id) }}" class="btn btn-md rounded font-sm">Detail</a>
                                 </td>

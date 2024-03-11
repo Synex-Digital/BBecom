@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campaign;
+use App\Models\ProductCategory;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Artesaos\SEOTools\Facades\SEOMeta;
 
@@ -17,9 +18,12 @@ class HomeController extends Controller
         $campaign = Campaign::find($id);
         $products = $campaign->products;
 
+        $category = ProductCategory::get();
+
         return view('frontend.campaign',[
-            'products' => $products,
-            'campaign' => $campaign,
+            'products'      => $products,
+            'campaign'      => $campaign,
+            'categories'    => $category,
         ]);
     }
 

@@ -20,3 +20,19 @@
     </div>
 </main>
 @endsection
+
+@section('script')
+    <!-- Add the following scripts for GTM data layer and Facebook Pixel -->
+@if (session('data'))
+    <script>
+        // Facebook Pixel Event for View Category
+        fbq('track', 'Purchase', {
+            content_ids: {{ session('ids') }},
+            content_type: 'Purchase',
+            num_items: {{ session('data')['total'] }},
+            currency: 'BDT',
+            value: {{ session('data')['price'] }}
+        });
+    </script>
+@endif
+@endsection

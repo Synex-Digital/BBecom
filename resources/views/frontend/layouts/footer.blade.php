@@ -92,7 +92,7 @@
                 <div class="footer-bottom"></div>
             </div>
             <div class="col-lg-6">
-                <p class="float-md-left font-sm text-muted mb-0">&copy; 2024, <strong class="text-brand">Familly Bazar </strong>- All rights reserved</p>
+                <p class="float-md-left font-sm text-muted mb-0">&copy; 2024, <strong class="text-brand">{{ $config?$config->name:'' }}</strong>- All rights reserved</p>
             </div>
             <div class="col-lg-6">
                 <p class="text-lg-end text-start font-sm text-muted mb-0">

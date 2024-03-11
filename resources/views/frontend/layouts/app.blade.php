@@ -1,7 +1,9 @@
 <?php
 use App\Models\Config;
+use App\Models\CustomLink;
 
 $config = Config::first();
+$link = CustomLink::first();
 ?>
 
 <!DOCTYPE html>
@@ -18,29 +20,20 @@ $config = Config::first();
     @endif
     <link rel='stylesheet' href='{{ asset('frontend/css/icon.css') }}'>
     <link rel="stylesheet" href="{{ asset('frontend') }}/css/maind134.css?v=3.4">
-    @include('frontend.3rdLink.header')
+    {!! $link? $link->header:null !!}
     @yield('style')
     @livewireStyles
 </head>
 
 <body class="relative">
-    {{-- Model --}}
-    {{-- <div class="position-absolute top-0 start-0" style="width: 100%; height: 100vh; background: #0000001c; z-index: 10;display: flex;align-items: center;justify-content: center;">
-        <div class="container bg-white p-4">
-            dd
-        </div>
-    </div> --}}
-    {{-- headewr --}}
     @include('frontend.layouts.header')
-    {{-- headewr --}}
 
-    {{-- main --}}
     @yield('content')
-    {{-- main --}}
 
-    {{-- footer --}}
-    @include('frontend.3rdLink.body')
     @include('frontend.layouts.footer')
+
+    @yield('script')
+    {!! $link? $link->body:null !!}
 
     <!-- Vendor JS-->
     <script src="{{ asset('frontend') }}/js/vendor/modernizr-3.6.0.min.js"></script>
@@ -69,7 +62,4 @@ $config = Config::first();
     @livewireScripts
 
 </body>
-
-
-<!-- Mirrored from wp.alithemes.com/html/evara/evara-frontend/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 27 Jul 2023 14:37:57 GMT -->
 </html>
