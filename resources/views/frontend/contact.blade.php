@@ -19,7 +19,7 @@
                     <h1 class="mb-20 wow fadeIn animated font-xxl fw-900">
                         Let's Talk About <br>Your <span class="text-style-1">Idea</span>
                     </h1>
-                    <p class="w-50 m-auto mb-50 wow fadeIn animated">Familly Bazar is now one of the leading e-commerce organizations in Bangladesh. It is indeed the biggest online hypermarket in Bangladesh that helps you save time and money.</p>
+                    <p class="w-50 m-auto mb-50 wow fadeIn animated">Smart Bazar BD is now one of the leading e-commerce organizations in Bangladesh. It is indeed the biggest online hypermarket in Bangladesh that helps you save time and money.</p>
                     <p class="wow fadeIn animated">
                         <a class="btn btn-brand btn-lg font-weight-bold text-white border-radius-5 btn-shadow-brand hover-up" href="{{ route('index') }}">About Us</a>
                         {{-- <a class="btn btn-outline btn-lg btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">Support Center</a> --}}
@@ -34,9 +34,10 @@
                 <div class="col-md-6">
                     <h4 class="mb-15 text-brand">Office</h4>
                     {{-- {{ $config }}<br> --}}
-                    Zigatola Monesshor Road, Dhanmondi Dhaka - 1209<br>
-                    <abbr title="Phone">Phone:</abbr> 0188477155<br>
-                    <abbr title="Email">Email: </abbr><a href="https://wp.alithemes.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="87e4e8e9f3e6e4f3c7c2f1e6f5e6a9e4e8ea">[email&#160;protected]</a><br>
+                     House# 44/1, Shop# 10, 11 (3rd Floor), New
+Market City Complex, New Market, Dhaka- 1205, Bangladesh.<br>
+                    <abbr title="Phone">Phone:</abbr> +8801576995833<br>
+                    <abbr title="Email">Email: </abbr><a >info@smartbazar-bd.com</a><br>
                 </div>
                 {{-- <div class="col-md-4 mb-4 mb-md-0">
                     <h4 class="mb-15 text-brand">Studio</h4>
@@ -49,9 +50,10 @@
                 <div class="col-md-6">
                     <h4 class="mb-15 text-brand">Shop</h4>
                     {{-- {{ $config }}<br> --}}
-                    Zigatola Monesshor Road, Dhanmondi Dhaka - 1209<br>
-                    <abbr title="Phone">Phone:</abbr> 0188477155<br>
-                    <abbr title="Email">Email: </abbr><a href="https://wp.alithemes.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="87e4e8e9f3e6e4f3c7c2f1e6f5e6a9e4e8ea">[email&#160;protected]</a><br>
+                     House# 44/1, Shop# 10, 11 (3rd Floor), New
+Market City Complex, New Market, Dhaka- 1205, Bangladesh.<br>
+                    <abbr title="Phone">Phone:</abbr> +8801576995833<br>
+                    <abbr title="Email">Email: </abbr><a >info@smartbazar-bd.com</a><br>
                 </div>
             </div>
         </div>

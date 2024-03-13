@@ -1,3 +1,8 @@
+<?php
+use App\Models\Config;
+
+$config = Config::first();
+?>
 @extends('frontend.layouts.app')
 
 @section('content')
@@ -43,7 +48,9 @@
         <div class="preloader d-flex align-items-center justify-content-center">
             <div class="preloader-inner position-relative">
                 <div class="text-center">
-                    <h5 class="mb-5">ECOM HAAT</h5>
+                    @if ($config)
+                        <h5 class="mb-5">{{ $config->name }}</h5>
+                    @endif
                     <div class="loader">
                         <div class="bar bar1"></div>
                         <div class="bar bar2"></div>
