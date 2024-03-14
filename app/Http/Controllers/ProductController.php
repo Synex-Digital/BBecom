@@ -32,7 +32,8 @@ class ProductController extends Controller
 
         return view('frontend.productView',[
             'product' => $product,
-            'related' => $relatedProduct
+            'related' => $relatedProduct,
+            'config'  => $config
         ]);
     }
 

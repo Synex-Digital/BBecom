@@ -83,7 +83,10 @@
                                             {{-- <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a> --}}
                                         </div>
                                     </form>
-                                    <a href="tel:+8801888477155" class="btn btn-outline btn-sm text-primary">Call Us : 01888477155</a>
+                                    @if ($config)
+                                        <a href="tel:{{ $config->number }}" class="btn btn-outline btn-sm text-primary">Call Us : {{ $config->number }}</a>
+                                    @endif
+
                                     <ul class="product-meta font-xs color-grey mt-50">
                                         <li>SKU :<span class="in-stock text-black ml-5">{{ $product->sku }}</span></li>
                                         <li>Availability :<span class="in-stock text-{{ $product->qnt > 0 ? 'success':'danger' }} ml-5">{{ $product->qnt  }} Available</span></li>

@@ -1,8 +1,11 @@
 <?php
     use App\Models\ProductCategory;
     use App\Models\Campaign;
+    use App\Models\Config;
+
     $categories = ProductCategory::All();
-    $camps       = Campaign::All();
+    $camps      = Campaign::All();
+    $config     = Config::first();
 ?>
 <!-- Quick view -->
 <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel"
@@ -172,7 +175,9 @@
                 <div class="col-xl-3 col-lg-4">
                     <div class="header-info">
                         <ul>
-                            <li><i class="fi-rs-smartphone"></i> <a href="#">1888477155</a></li>
+                            @if ($config)
+                            <li><i class="fi-rs-smartphone"></i> <a href="#">{{ $config->number }}</a></li>
+                            @endif
                             <li><i class="fi-rs-marker"></i><a href="{{ route('contact') }}">Our location</a></li>
                         </ul>
                     </div>
