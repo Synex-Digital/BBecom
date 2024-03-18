@@ -103,6 +103,10 @@ $total = 0;
                 </table>
                 <table width="30%" align="right" style="font-family: sans-serif; font-size: 14px;">
                     <tr>
+                        <td style="padding: 0px 8px; line-height: 20px;"><strong>Date</strong></td>
+                        <td style="padding: 0px 8px; line-height: 20px;">{{ $data->created_at->format('M D y') }}</td>
+                    </tr>
+                    <tr>
                         <td style="padding: 0px 8px; line-height: 20px;"><strong>ID</strong></td>
                         <td style="padding: 0px 8px; line-height: 20px;">{{ $data->order_id }}</td>
                     </tr>
