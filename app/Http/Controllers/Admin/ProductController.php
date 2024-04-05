@@ -35,7 +35,7 @@ class ProductController extends Controller
 
         if ($categories->isEmpty()) {
             return redirect()->route('category.create')->with('err', 'Add category before product');
-        }elseif ($service->isEmpty()) {
+        } elseif ($service->isEmpty()) {
             return redirect()->route('variation.create')->with('err', 'Add service before product');
         }
 
@@ -60,7 +60,7 @@ class ProductController extends Controller
             'images'            => 'required|array|present',
         ]);
 
-        $sku = 'SK'. now()->format('mdH'). strtoupper(Str::random(4)). now()->format('is');
+        $sku = 'SK' . now()->format('mdH') . strtoupper(Str::random(4)) . now()->format('is');
         $slug = Str::slug($request->product_name);
 
         // Check if the slug already exists, append numeric value if necessary
@@ -83,7 +83,7 @@ class ProductController extends Controller
             $product->discount          = $request->discount;
             $product->price             = $request->price;
             $product->video_link        = $request->link;
-            $product->qnt	            = $request->qnt;
+            $product->qnt                = $request->qnt;
             $product->status            = $request->btn;
             $product->featured          = $request->featured == 'on' ? 1 : 0;
             $product->popular           = $request->popular == 'on' ? 1 : 0;
@@ -92,7 +92,7 @@ class ProductController extends Controller
             $product->seo_title         = $request->seo_title;
             $product->seo_description   = $request->seo_description;
             $product->seo_tags          = $request->seo_tags;
-            $product->sku               = 'SK' . now()->format('md'). strtoupper(Str::random(3)). now()->format('Hi');
+            $product->sku               = 'SK' . now()->format('md') . strtoupper(Str::random(3)) . now()->format('Hi');
             $product->save();
 
             $product_id = $product->id;
@@ -197,7 +197,7 @@ class ProductController extends Controller
 
                 //Product qnt update
                 $product->qnt = $product->qnt + $request->qnt;
-            }elseif ($firstProductQuantity) {
+            } elseif ($firstProductQuantity) {
                 $firstProductQuantity->sale_price  = $request->price;
                 $firstProductQuantity->stock_price = $request->stk_price;
             }

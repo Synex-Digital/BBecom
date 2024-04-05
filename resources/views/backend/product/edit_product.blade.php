@@ -1,6 +1,6 @@
 @extends('backend.master')
 @section('style')
-<script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
 @endsection
 @section('content')
     <section class="content-main">
@@ -64,7 +64,8 @@
                                                     <label for="product_name" class="form-label">Select A Category</label>
                                                     <select class="form-select" name="category_id">
                                                         @foreach ($categories as $category)
-                                                            <option value="{{ $category->id }}" @if ($request->category) {{ $request->category->id == $category->id ? 'selected' : '' }} @endif>
+                                                            <option value="{{ $category->id }}"
+                                                                @if ($request->category) {{ $request->category->id == $category->id ? 'selected' : '' }} @endif>
                                                                 {{ $category->category_name }}
                                                             </option>
                                                         @endforeach
@@ -146,13 +147,14 @@
                                     <div class="col-12">
                                         <div class="mb-4">
                                             <table class="table border">
-                                                <tr >
+                                                <tr>
                                                     <td>SKU</td>
                                                     <th scope="row" style="font-weight: 800;">{{ $request->sku }}</th>
                                                 </tr>
                                                 <tr>
                                                     <td>Stock history</td>
-                                                    <th scope="row" style="font-weight: 800;">{{ $request->stock() }}</th>
+                                                    <th scope="row" style="font-weight: 800;">{{ $request->stock() }}
+                                                    </th>
                                                 </tr>
                                                 <tr>
                                                     <td>Current stock</td>
@@ -164,28 +166,32 @@
 
                                     <div class="col-12">
                                         <div class="mb-4">
-                                            <label for="product_name" class="form-label">Upadate stock - <span style="font-size: 12px; color:rgb(8 129 120)">"It will update current stock"</span></label>
-                                            <input type="number" placeholder="0" class="form-control"
-                                                 name="qnt">
+                                            <label for="product_name" class="form-label">Upadate stock - <span
+                                                    style="font-size: 12px; color:rgb(8 129 120)">"It will update current
+                                                    stock"</span></label>
+                                            <input type="number" placeholder="0" class="form-control" name="qnt">
                                         </div>
 
                                         <div class="col-12">
                                             <div class="mb-4">
                                                 <label for="product_name" class="form-label">Discount %</label>
                                                 <input type="number" placeholder="0%" class="form-control"
-                                                    value="{{ $request->discount }}" name="discount" max="100" min="0">
+                                                    value="{{ $request->discount }}" name="discount" max="100"
+                                                    min="0">
                                             </div>
                                         </div>
 
                                         <div class="mb-4">
                                             <label for="product_name" class="form-label">Selling Price</label>
                                             <input type="number" placeholder="0.00" class="form-control"
-                                                value="{{ str_replace(',', '', number_format($request->price ?? 0, 0)) }}" name="price">
+                                                value="{{ str_replace(',', '', number_format($request->price ?? 0, 0)) }}"
+                                                name="price">
                                         </div>
                                         <div class="mb-4">
                                             <label for="product_name" class="form-label">Stock price</label>
                                             <input type="number" placeholder="0.00" class="form-control"
-                                                value="{{ $request->stockItem->first() ? number_format($request->stockItem->first()->stock_price,0):0 }}" name="stk_price">
+                                                value="{{ $request->stockItem->first() ? number_format($request->stockItem->sortByDesc('created_at')->first()->stock_price, 0) : 0 }}"
+                                                name="stk_price">
                                         </div>
                                     </div>
                                 </div>
@@ -201,11 +207,13 @@
                                         <div class="mb-4">
                                             <div class="mt-2">
                                                 @if ($request->services)
-                                                <ul>
+                                                    <ul>
 
-                                                </ul class="list-group">
+                                                    </ul class="list-group">
                                                     @foreach ($request->services as $service)
-                                                        <li class="list-group-item">{{ $service->service?$service->service->message:'Unknown' }}</li>
+                                                        <li class="list-group-item">
+                                                            {{ $service->service ? $service->service->message : 'Unknown' }}
+                                                        </li>
                                                     @endforeach
                                                 @endif
                                             </div>
@@ -245,12 +253,11 @@
     </section>
 @endsection
 @section('script')
-<script>
-    ClassicEditor
-        .create( document.querySelector( '#description' ))
-        .catch( error => {
-            console.error( error );
-        } );
-</script>
-
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#description'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
 @endsection
